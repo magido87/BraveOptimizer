@@ -1,149 +1,117 @@
 # DOM Performance Optimizer
 
-a browser extension that makes heavy webpages actually usable again.
+browser extension that fixes slow ai chat interfaces.
 
-built this because chatgpt, claude, and other ai chat interfaces become unusably slow after long conversations. the browser tries to render thousands of dom nodes and everything grinds to a halt. this extension fixes that by trimming old messages from the dom while keeping them in memory so you can restore them anytime.
-
-works on chatgpt, claude, grok, perplexity, gemini, and basically any content heavy site.
+long conversations in chatgpt, claude, grok, perplexity, and gemini cause massive browser lag. the page tries to render thousands of dom nodes and everything slows down. this extension trims old messages from the dom while keeping them in memory. scroll up and they lazy load back. nothing is lost.
 
 ![overlay widget on chatgpt](screenshots/overlay-chatgpt.png)
 
-## what it does
+## features
 
-the extension removes older messages from the page dom to reduce browser load. when you scroll up, it lazy loads them back. you can also manually trim and restore everything with a single click.
+**dom trimming** removes old messages from the rendered page to reduce memory usage and improve scroll performance. messages stay in memory and can be restored instantly.
 
-**trim dom** removes old messages from the rendered page. they stay in memory so nothing is lost.
+**lazy loading** automatically loads older messages in chunks when you scroll up. adjusts chunk size based on scroll speed.
 
-**restore all** brings everything back instantly.
+**performance boost** pauses css animations and transitions. applies will change and contain hints to reduce layout thrashing and gpu load.
 
-**performance boost** pauses css animations, transitions, and other gpu heavy effects that slow things down.
+**auto trim** keeps the dom light automatically when youre at the bottom of the conversation. pauses when you scroll up to browse history.
 
-**auto trim** automatically keeps the dom light when you're at the bottom of the conversation.
-
-**lazy loading** loads older messages in chunks when you scroll up.
-
-## the ui
-
-glassmorphism design with transparency, blur effects, and smooth animations. five color themes to choose from: ocean, dark blue, purple, forest, and sunset. theres a floating overlay widget on the page for quick actions, plus a full popup panel and settings page.
-
-![settings page with dom trimmer and lazy loading](screenshots/settings-trimmer.png)
-
-![performance boost and theme selector](screenshots/settings-performance.png)
-
-## installation
-
-### load it locally in brave or chrome
-
-1. clone or download this repo
-2. open your browser and go to `brave://extensions` or `chrome://extensions`
-3. flip the developer mode toggle in the top right corner
-4. click load unpacked
-5. select the folder you downloaded
-6. done. the icon shows up in your toolbar
-
-### thats it
-
-no build step. no npm install. no webpack config. just load it and go.
-
-## how to use it
-
-click the extension icon to open the popup. from there you can:
-
-**trim dom** to remove old messages and speed up the page
-
-**restore all** to bring back everything you trimmed
-
-**free memory** to clear offscreen images and pause videos
-
-**purge cache** to clear the extensions local storage
-
-theres a slider to set how many messages to keep visible. lower means faster performance, higher means more context on screen.
-
-toggle auto trim to let the extension handle things automatically. when youre scrolled to the bottom it keeps trimming old stuff. when you scroll up it pauses and lets you browse history.
-
-## keyboard shortcuts
-
-```
-alt+t    trim dom
-alt+r    restore all
-alt+a    toggle auto trim
-alt+p    toggle performance boost
-alt+o    toggle overlay widget
-```
-
-## settings
-
-right click the extension icon and select options, or click the gear icon in the popup.
-
-you can configure:
-
-max visible messages and token limits
-
-auto trim interval
-
-lazy loading chunk size
-
-which performance optimizations to apply
-
-color theme
-
-whether to show the overlay widget
-
-export and import your settings as json
+**keyboard shortcuts** alt+t to trim, alt+r to restore, alt+a for auto mode, alt+p for performance boost.
 
 ## supported sites
 
-**chatgpt** chat.openai.com and chatgpt.com
+- chatgpt (chat.openai.com, chatgpt.com)
+- claude (claude.ai)
+- grok (grok.x.ai, x.com/i/grok)
+- perplexity (perplexity.ai)
+- gemini (gemini.google.com)
+- generic fallback for other sites
 
-**claude** claude.ai
+## installation
 
-**grok** grok.x.ai and x.com/i/grok
+1. clone this repo or download as zip
+2. go to `chrome://extensions` or `brave://extensions`
+3. enable developer mode
+4. click load unpacked
+5. select the folder
 
-**perplexity** perplexity.ai
+no build step. no dependencies. just load and use.
 
-**gemini** gemini.google.com and bard.google.com
+## screenshots
 
-the extension also has a generic adapter that works on most other sites with scrollable content.
+![settings page](screenshots/settings-trimmer.png)
 
-## privacy
+![performance and themes](screenshots/settings-performance.png)
 
-this extension runs entirely in your browser. no data is sent anywhere. no analytics. no tracking. no api calls. all settings are stored locally using chrome.storage.local.
+## usage
 
-## technical stuff
+click the extension icon to open controls. use the slider to set how many messages to keep visible. lower values mean better performance.
 
-manifest v3 compliant. uses a service worker for background tasks. content scripts handle the actual dom manipulation. each supported site has its own adapter that knows how to find and manipulate messages on that specific interface.
+**trim dom** removes old messages immediately
 
-the trimmer works by removing dom nodes and storing references to them in a map. when you restore, it reinjects them in the right order. the lazy loader watches scroll position and loads chunks of messages as you scroll up.
+**restore all** brings everything back
 
-performance boost injects css that pauses animations and transitions, plus it applies will change and contain properties to reduce layout thrashing.
+**free memory** clears offscreen images and pauses background videos
+
+**purge cache** clears extension storage
+
+## settings
+
+right click the extension icon and select options to configure:
+
+- max visible messages
+- auto trim interval
+- lazy load chunk size
+- performance optimizations
+- color theme
+- overlay visibility
+
+settings can be exported and imported as json.
+
+## how it works
+
+the extension uses site specific adapters to identify message elements in each chat interface. when you trim, it removes dom nodes and stores references in a map. restoration reinjects nodes in the correct order.
+
+the lazy loader monitors scroll position and loads chunks of messages as you approach the top. chunk size adjusts dynamically based on scroll velocity.
+
+performance boost injects css that disables animations and applies containment properties to prevent unnecessary reflows.
+
+## technical details
+
+- manifest v3
+- service worker background
+- content scripts for dom manipulation
+- chrome.storage.local for settings
+- no external requests
+- no analytics
+- no tracking
 
 ## file structure
 
 ```
-manifest.json           extension config
-background.js           service worker
+manifest.json
+background.js
 content/
-  content.js            main orchestrator
-  dom-trimmer.js        removes and restores nodes
-  lazy-loader.js        scroll based loading
-  performance-boost.js  optimization utilities
-  site-detector.js      picks the right adapter
-  site-adapters/        one file per supported site
-popup/                  the popup ui
-options/                settings page
-overlay/                floating widget
-styles/                 themes and glassmorphism css
-utils/                  storage, state, config
-icons/                  extension icons
+  content.js
+  dom-trimmer.js
+  lazy-loader.js
+  performance-boost.js
+  site-detector.js
+  site-adapters/
+popup/
+options/
+overlay/
+styles/
+utils/
 ```
 
 ## browser support
 
-works on brave, chrome, edge, and any chromium based browser. manifest v3 so it should keep working as browsers phase out v2.
+chrome, brave, edge, and chromium based browsers.
 
 ## contributing
 
-pull requests welcome. if you want to add support for a new site, create an adapter in `content/site-adapters/` that extends the base adapter class.
+pull requests welcome. to add support for a new site, create an adapter in `content/site-adapters/` extending the base adapter class.
 
 ## license
 
