@@ -6,6 +6,8 @@ built this because chatgpt, claude, and other ai chat interfaces become unusably
 
 works on chatgpt, claude, grok, perplexity, gemini, and basically any content heavy site.
 
+![overlay widget on chatgpt](screenshots/overlay-chatgpt.png)
+
 ## what it does
 
 the extension removes older messages from the page dom to reduce browser load. when you scroll up, it lazy loads them back. you can also manually trim and restore everything with a single click.
@@ -23,6 +25,10 @@ the extension removes older messages from the page dom to reduce browser load. w
 ## the ui
 
 glassmorphism design with transparency, blur effects, and smooth animations. five color themes to choose from: ocean, dark blue, purple, forest, and sunset. theres a floating overlay widget on the page for quick actions, plus a full popup panel and settings page.
+
+![settings page with dom trimmer and lazy loading](screenshots/settings-trimmer.png)
+
+![performance boost and theme selector](screenshots/settings-performance.png)
 
 ## installation
 
