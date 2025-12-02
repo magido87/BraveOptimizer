@@ -1,0 +1,25 @@
+# plan and dev notes
+plan.md
+*.plan
+notes.md
+todo.md
+TODO.md
+
+# os files
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# temp files
+*.tmp
+*.temp
+*.log
+
+# generated
+generate-icons.sh
+

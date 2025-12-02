@@ -1,0 +1,307 @@
+/**
+ * Overlay Widget Styles
+ * Glassmorphism floating control panel
+ */
+
+/* Main Overlay Container */
+.dom-optimizer-overlay {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 180px;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: overlaySlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes overlaySlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dom-optimizer-overlay.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+/* Header */
+.dom-optimizer-overlay .overlay-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dom-optimizer-overlay .overlay-drag-handle {
+  cursor: grab;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  color: var(--text-muted);
+}
+
+.dom-optimizer-overlay .overlay-drag-handle:hover {
+  opacity: 1;
+}
+
+.dom-optimizer-overlay .overlay-title {
+  flex: 1;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dom-optimizer-overlay .overlay-minimize {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.dom-optimizer-overlay .overlay-minimize:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Content */
+.dom-optimizer-overlay .overlay-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Stats */
+.dom-optimizer-overlay .overlay-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.dom-optimizer-overlay .stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.dom-optimizer-overlay .stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.dom-optimizer-overlay .stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dom-optimizer-overlay .stat-divider {
+  width: 1px;
+  height: 30px;
+  background: var(--border);
+}
+
+/* Action Buttons */
+.dom-optimizer-overlay .overlay-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.dom-optimizer-overlay .overlay-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dom-optimizer-overlay .overlay-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.dom-optimizer-overlay .overlay-btn.loading svg {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Toggles */
+.dom-optimizer-overlay .overlay-toggles {
+  display: flex;
+  gap: 8px;
+}
+
+.dom-optimizer-overlay .overlay-toggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dom-optimizer-overlay .overlay-toggle:hover {
+  background: var(--surface-hover);
+}
+
+.dom-optimizer-overlay .overlay-toggle input {
+  display: none;
+}
+
+.dom-optimizer-overlay .toggle-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.dom-optimizer-overlay .toggle-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.dom-optimizer-overlay .overlay-toggle input:checked + .toggle-label + .toggle-indicator {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Minimized State */
+.dom-optimizer-overlay .overlay-minimized {
+  display: none;
+  padding: 12px;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.dom-optimizer-overlay.minimized {
+  width: auto;
+  min-width: 44px;
+}
+
+.dom-optimizer-overlay.minimized .overlay-header,
+.dom-optimizer-overlay.minimized .overlay-content {
+  display: none;
+}
+
+.dom-optimizer-overlay.minimized .overlay-minimized {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dom-optimizer-overlay.minimized .overlay-minimized svg {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Notification */
+.dom-optimizer-overlay .overlay-notification {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  white-space: nowrap;
+  font-size: 12px;
+  animation: notificationSlide 0.3s ease;
+}
+
+@keyframes notificationSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.dom-optimizer-overlay .overlay-notification.fade-out {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+/* Hover Effects */
+.dom-optimizer-overlay:hover {
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 30px var(--accent-glow);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .dom-optimizer-overlay {
+    width: 160px;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .dom-optimizer-overlay .overlay-btn {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .dom-optimizer-overlay {
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Accessibility */
+.dom-optimizer-overlay:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.dom-optimizer-overlay button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+

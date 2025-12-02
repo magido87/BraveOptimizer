@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Optimizer - Settings</title>
+  <link rel="stylesheet" href="../styles/themes.css">
+  <link rel="stylesheet" href="../styles/glassmorphism.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body data-theme="ocean">
+  <div class="options-container">
+    <!-- Liquid Background -->
+    <div class="liquid-bg">
+      <div class="liquid-blob blob-1"></div>
+      <div class="liquid-blob blob-2"></div>
+      <div class="liquid-blob blob-3"></div>
+      <div class="liquid-blob blob-4"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="options-header glass-panel">
+      <div class="header-content">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <div class="header-text">
+          <h1 class="glass-title">DOM Optimizer</h1>
+          <span class="glass-subtitle">Settings & Configuration</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="glass-btn" id="export-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          Export
+        </button>
+        <button class="glass-btn" id="import-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Import
+        </button>
+        <input type="file" id="import-file" accept=".json" hidden>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="options-main">
+      <!-- DOM Trimmer Section -->
+      <section class="settings-section glass-panel">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <div class="section-title-group">
+            <h2 class="section-title">DOM Trimmer</h2>
+            <p class="section-desc">Configure how messages are trimmed from the DOM</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Max Visible Messages</label>
+              <span class="setting-desc">Number of messages to keep visible</span>
+            </div>
+            <div class="setting-control">
+              <input type="range" class="glass-slider" id="max-messages" 
+                     min="5" max="200" value="50" step="5">
+              <span class="slider-value" id="max-messages-value">50</span>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Max Tokens</label>
+              <span class="setting-desc">Approximate token limit for visible content</span>
+            </div>
+            <div class="setting-control">
+              <input type="range" class="glass-slider" id="max-tokens" 
+                     min="500" max="10000" value="3000" step="500">
+              <span class="slider-value" id="max-tokens-value">3000</span>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Auto-Trim Mode</label>
+              <span class="setting-desc">Automatically trim when scrolled to bottom</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="auto-trim-enabled">
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Auto-Trim Interval</label>
+              <span class="setting-desc">How often to check for trimming (ms)</span>
+            </div>
+            <div class="setting-control">
+              <input type="range" class="glass-slider" id="auto-trim-interval" 
+                     min="1000" max="30000" value="5000" step="1000">
+              <span class="slider-value" id="auto-trim-interval-value">5s</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lazy Loading Section -->
+      <section class="settings-section glass-panel">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="17 1 21 5 17 9"/>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+              <polyline points="7 23 3 19 7 15"/>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+            </svg>
+          </div>
+          <div class="section-title-group">
+            <h2 class="section-title">Lazy Loading</h2>
+            <p class="section-desc">Configure scroll-based message loading</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Enable Lazy Loading</label>
+              <span class="setting-desc">Load older messages when scrolling up</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="lazy-load-enabled" checked>
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Chunk Size</label>
+              <span class="setting-desc">Messages to load per scroll</span>
+            </div>
+            <div class="setting-control">
+              <input type="range" class="glass-slider" id="lazy-load-chunk" 
+                     min="2" max="20" value="5" step="1">
+              <span class="slider-value" id="lazy-load-chunk-value">5</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Performance Section -->
+      <section class="settings-section glass-panel">
+        <div class="section-header">
+          <div class="section-icon boost">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="section-title-group">
+            <h2 class="section-title">Performance Boost</h2>
+            <p class="section-desc">Optimize page performance</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Pause Animations</label>
+              <span class="setting-desc">Stop CSS animations when boosting</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="pause-animations" checked>
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Pause Transitions</label>
+              <span class="setting-desc">Stop CSS transitions when boosting</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="pause-transitions" checked>
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Reduce GPU Load</label>
+              <span class="setting-desc">Minimize GPU-intensive effects</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="reduce-gpu">
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- UI Section -->
+      <section class="settings-section glass-panel">
+        <div class="section-header">
+          <div class="section-icon ui">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="9" y1="21" x2="9" y2="9"/>
+            </svg>
+          </div>
+          <div class="section-title-group">
+            <h2 class="section-title">User Interface</h2>
+            <p class="section-desc">Customize appearance and behavior</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Show Overlay Widget</label>
+              <span class="setting-desc">Display floating controls on page</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="show-overlay" checked>
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label class="setting-label">Enable Hotkeys</label>
+              <span class="setting-desc">Use keyboard shortcuts (Alt+T, Alt+R, etc.)</span>
+            </div>
+            <label class="glass-toggle">
+              <input type="checkbox" id="hotkeys-enabled" checked>
+              <span class="glass-toggle-track">
+                <span class="glass-toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="setting-item full-width">
+            <div class="setting-info">
+              <label class="setting-label">Color Theme</label>
+              <span class="setting-desc">Choose your preferred color scheme</span>
+            </div>
+            <div class="theme-selector" id="theme-selector">
+              <button class="theme-option active" data-theme="ocean">
+                <span class="theme-preview"></span>
+                <span class="theme-name">Ocean</span>
+              </button>
+              <button class="theme-option" data-theme="darkBlue">
+                <span class="theme-preview"></span>
+                <span class="theme-name">Dark Blue</span>
+              </button>
+              <button class="theme-option" data-theme="purple">
+                <span class="theme-preview"></span>
+                <span class="theme-name">Purple</span>
+              </button>
+              <button class="theme-option" data-theme="green">
+                <span class="theme-preview"></span>
+                <span class="theme-name">Forest</span>
+              </button>
+              <button class="theme-option" data-theme="sunset">
+                <span class="theme-preview"></span>
+                <span class="theme-name">Sunset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Storage Section -->
+      <section class="settings-section glass-panel">
+        <div class="section-header">
+          <div class="section-icon storage">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+          </div>
+          <div class="section-title-group">
+            <h2 class="section-title">Storage & Data</h2>
+            <p class="section-desc">Manage extension data</p>
+          </div>
+        </div>
+
+        <div class="storage-info glass-card">
+          <div class="storage-stat">
+            <span class="storage-label">Storage Used</span>
+            <span class="storage-value" id="storage-used">0 KB</span>
+          </div>
+          <div class="storage-bar">
+            <div class="storage-bar-fill" id="storage-bar-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="storage-actions">
+          <button class="glass-btn" id="clear-cache-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+            Clear Cache
+          </button>
+          <button class="glass-btn glass-btn-danger" id="reset-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            Reset All Settings
+          </button>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="settings-section glass-panel about-section">
+        <div class="about-content">
+          <h3>DOM Performance Optimizer</h3>
+          <p class="version">Version 1.0.0</p>
+          <p class="about-desc">
+            A powerful browser extension for optimizing heavy web pages.
+            Trim DOM elements, virtualize scrolling, and boost performance
+            on AI chat interfaces and any content-heavy website.
+          </p>
+          <div class="about-links">
+            <span class="privacy-badge glass-badge glass-badge-success">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              100% Private - No Data Collection
+            </span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Save Notification -->
+    <div class="save-notification glass-notification" id="save-notification">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      Settings saved
+    </div>
+  </div>
+
+  <script src="../utils/config.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="grad128" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d4f4f"/>
+      <stop offset="50%" style="stop-color:#0d9488"/>
+      <stop offset="100%" style="stop-color:#2dd4bf"/>
+    </linearGradient>
+    <filter id="shadow128" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="glow128">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#grad128)" filter="url(#shadow128)"/>
+  <path d="M68 20L32 72h32l-4 36 36-52H64l4-36z" fill="white" filter="url(#glow128)"/>
+</svg>
+
