@@ -1,13 +1,13 @@
 /**
  * ChatGPT Adapter
- * Handles DOM manipulation for chat.openai.com and chatgpt.com
+ * Handles DOM manipulation for chatgpt.com
  */
 
 class ChatGPTAdapter extends BaseAdapter {
   constructor() {
     super();
     this.name = 'ChatGPT';
-    this.hostname = ['chat.openai.com', 'chatgpt.com'];
+    this.hostname = ['chatgpt.com'];
     this.selectors = {
       container: 'main [class*="react-scroll-to-bottom"]',
       messages: '[data-message-author-role]',
@@ -31,7 +31,7 @@ class ChatGPTAdapter extends BaseAdapter {
    */
   detect() {
     const hostname = window.location.hostname;
-    return hostname === 'chat.openai.com' || hostname === 'chatgpt.com';
+    return hostname === 'chatgpt.com';
   }
 
   /**
@@ -87,10 +87,11 @@ class ChatGPTAdapter extends BaseAdapter {
    */
   getMessageContent(messageNode) {
     // Find the actual content div
-    const contentDiv = messageNode.querySelector('[class*="markdown"]') ||
-                       messageNode.querySelector('[class*="prose"]') ||
-                       messageNode.querySelector('.whitespace-pre-wrap');
-    
+    const contentDiv =
+      messageNode.querySelector('[class*="markdown"]') ||
+      messageNode.querySelector('[class*="prose"]') ||
+      messageNode.querySelector('.whitespace-pre-wrap');
+
     return contentDiv ? contentDiv.textContent : messageNode.textContent || '';
   }
 
@@ -100,8 +101,10 @@ class ChatGPTAdapter extends BaseAdapter {
    * @returns {boolean}
    */
   isUserMessage(messageNode) {
-    return messageNode.getAttribute('data-message-author-role') === 'user' ||
-           messageNode.querySelector('[data-message-author-role="user"]') !== null;
+    return (
+      messageNode.getAttribute('data-message-author-role') === 'user' ||
+      messageNode.querySelector('[data-message-author-role="user"]') !== null
+    );
   }
 
   /**
@@ -110,8 +113,10 @@ class ChatGPTAdapter extends BaseAdapter {
    * @returns {boolean}
    */
   isAssistantMessage(messageNode) {
-    return messageNode.getAttribute('data-message-author-role') === 'assistant' ||
-           messageNode.querySelector('[data-message-author-role="assistant"]') !== null;
+    return (
+      messageNode.getAttribute('data-message-author-role') === 'assistant' ||
+      messageNode.querySelector('[data-message-author-role="assistant"]') !== null
+    );
   }
 
   /**
@@ -122,9 +127,10 @@ class ChatGPTAdapter extends BaseAdapter {
     const container = this.getContainer();
     if (container) {
       // Find the actual scrollable element
-      const scrollable = container.querySelector('[class*="overflow-y-auto"]') ||
-                        container.closest('[class*="overflow-y-auto"]') ||
-                        container;
+      const scrollable =
+        container.querySelector('[class*="overflow-y-auto"]') ||
+        container.closest('[class*="overflow-y-auto"]') ||
+        container;
       return scrollable;
     }
     return document.documentElement;
@@ -162,4 +168,3 @@ class ChatGPTAdapter extends BaseAdapter {
 if (typeof window !== 'undefined') {
   window.ChatGPTAdapter = ChatGPTAdapter;
 }
-

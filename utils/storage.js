@@ -98,6 +98,12 @@ const Storage = {
     };
 
     const stored = await this.get(this.KEYS.SETTINGS, {});
+    const legacyTheme = await this.get(this.KEYS.THEME, null);
+
+    if (!stored.theme && legacyTheme) {
+      stored.theme = legacyTheme;
+    }
+
     return { ...defaults, ...stored };
   },
 
@@ -117,7 +123,8 @@ const Storage = {
    * @returns {Promise<string>}
    */
   async getTheme() {
-    return this.get(this.KEYS.THEME, CONFIG.ui.defaultTheme);
+    const settings = await this.getSettings();
+    return settings.theme || CONFIG.ui.defaultTheme;
   },
 
   /**
@@ -126,7 +133,8 @@ const Storage = {
    * @returns {Promise<boolean>}
    */
   async saveTheme(theme) {
-    return this.set(this.KEYS.THEME, theme);
+    await this.set(this.KEYS.THEME, theme);
+    return this.saveSettings({ theme });
   },
 
   /**
@@ -168,14 +176,14 @@ const Storage = {
     const presets = await this.getPresets();
     preset.id = preset.id || Date.now().toString();
     preset.createdAt = preset.createdAt || new Date().toISOString();
-    
-    const existingIndex = presets.findIndex(p => p.id === preset.id);
+
+    const existingIndex = presets.findIndex((p) => p.id === preset.id);
     if (existingIndex >= 0) {
       presets[existingIndex] = preset;
     } else {
       presets.push(preset);
     }
-    
+
     return this.set(this.KEYS.PRESETS, presets);
   },
 
@@ -186,7 +194,7 @@ const Storage = {
    */
   async deletePreset(presetId) {
     const presets = await this.getPresets();
-    const filtered = presets.filter(p => p.id !== presetId);
+    const filtered = presets.filter((p) => p.id !== presetId);
     return this.set(this.KEYS.PRESETS, filtered);
   },
 
@@ -313,4 +321,3 @@ const Storage = {
 if (typeof window !== 'undefined') {
   window.DOMOptimizerStorage = Storage;
 }
-

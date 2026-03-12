@@ -1,13 +1,13 @@
 /**
  * Gemini Adapter
- * Handles DOM manipulation for gemini.google.com and bard.google.com
+ * Handles DOM manipulation for gemini.google.com
  */
 
 class GeminiAdapter extends BaseAdapter {
   constructor() {
     super();
     this.name = 'Gemini';
-    this.hostname = ['gemini.google.com', 'bard.google.com'];
+    this.hostname = ['gemini.google.com'];
     this.selectors = {
       container: '[class*="conversation"], [class*="chat-history"]',
       messages: '[class*="message-content"], [class*="query-content"], [class*="response-content"]',
@@ -28,12 +28,12 @@ class GeminiAdapter extends BaseAdapter {
   }
 
   /**
-   * Check if current site is Gemini/Bard
+   * Check if current site is Gemini
    * @returns {boolean}
    */
   detect() {
     const hostname = window.location.hostname;
-    return hostname === 'gemini.google.com' || hostname === 'bard.google.com';
+    return hostname === 'gemini.google.com';
   }
 
   /**
@@ -93,11 +93,12 @@ class GeminiAdapter extends BaseAdapter {
    */
   getMessageContent(messageNode) {
     // Gemini uses specific content containers
-    const contentDiv = messageNode.querySelector('[class*="markdown"]') ||
-                       messageNode.querySelector('[class*="message-text"]') ||
-                       messageNode.querySelector('[class*="content"]') ||
-                       messageNode;
-    
+    const contentDiv =
+      messageNode.querySelector('[class*="markdown"]') ||
+      messageNode.querySelector('[class*="message-text"]') ||
+      messageNode.querySelector('[class*="content"]') ||
+      messageNode;
+
     return contentDiv.textContent || '';
   }
 
@@ -109,10 +110,8 @@ class GeminiAdapter extends BaseAdapter {
   isUserMessage(messageNode) {
     const className = messageNode.className || '';
     const dataAttrs = messageNode.getAttribute('data-role') || '';
-    
-    return className.includes('query') || 
-           className.includes('user') ||
-           dataAttrs.includes('user');
+
+    return className.includes('query') || className.includes('user') || dataAttrs.includes('user');
   }
 
   /**
@@ -123,11 +122,13 @@ class GeminiAdapter extends BaseAdapter {
   isAssistantMessage(messageNode) {
     const className = messageNode.className || '';
     const dataAttrs = messageNode.getAttribute('data-role') || '';
-    
-    return className.includes('response') || 
-           className.includes('model') ||
-           className.includes('assistant') ||
-           dataAttrs.includes('model');
+
+    return (
+      className.includes('response') ||
+      className.includes('model') ||
+      className.includes('assistant') ||
+      dataAttrs.includes('model')
+    );
   }
 
   /**
@@ -164,4 +165,3 @@ class GeminiAdapter extends BaseAdapter {
 if (typeof window !== 'undefined') {
   window.GeminiAdapter = GeminiAdapter;
 }
-

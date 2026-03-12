@@ -11,27 +11,27 @@
   --transition-slow: 500ms;
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
+
   /* Spacing */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
-  
+
   /* Border radius */
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-xl: 32px;
   --radius-full: 9999px;
-  
+
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
   --shadow-glow: 0 0 20px var(--accent-glow);
-  
+
   /* Blur */
   --blur-sm: 8px;
   --blur-md: 16px;
@@ -42,7 +42,7 @@
    THEME: Ocean (Default)
    Deep teal waters with cyan accents
    ═══════════════════════════════════════════════════════════════ */
-[data-theme="ocean"],
+[data-theme='ocean'],
 .theme-ocean {
   --primary: #0d4f4f;
   --primary-light: #0f6b6b;
@@ -52,30 +52,30 @@
   --accent: #2dd4bf;
   --accent-glow: rgba(45, 212, 191, 0.4);
   --accent-hover: #5eead4;
-  
+
   --background: rgba(13, 79, 79, 0.85);
   --background-solid: #0d4f4f;
   --background-light: rgba(15, 107, 107, 0.9);
   --background-dark: rgba(10, 61, 61, 0.95);
-  
+
   --surface: rgba(20, 90, 90, 0.6);
   --surface-hover: rgba(25, 100, 100, 0.7);
   --surface-active: rgba(30, 110, 110, 0.8);
-  
+
   --text: #ccfbf1;
   --text-secondary: #99f6e4;
   --text-muted: #5eead4;
   --text-inverse: #134e4a;
-  
+
   --border: rgba(45, 212, 191, 0.25);
   --border-light: rgba(45, 212, 191, 0.15);
   --border-strong: rgba(45, 212, 191, 0.4);
-  
+
   --success: #34d399;
   --warning: #fbbf24;
   --error: #f87171;
   --info: #60a5fa;
-  
+
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
@@ -85,7 +85,7 @@
    THEME: Dark Blue
    Deep navy with electric blue accents
    ═══════════════════════════════════════════════════════════════ */
-[data-theme="darkBlue"],
+[data-theme='darkBlue'],
 .theme-darkBlue {
   --primary: #1a365d;
   --primary-light: #2a4a7f;
@@ -95,30 +95,30 @@
   --accent: #4299e1;
   --accent-glow: rgba(66, 153, 225, 0.4);
   --accent-hover: #63b3ed;
-  
+
   --background: rgba(26, 54, 93, 0.85);
   --background-solid: #1a365d;
   --background-light: rgba(42, 74, 127, 0.9);
   --background-dark: rgba(20, 40, 73, 0.95);
-  
+
   --surface: rgba(44, 82, 130, 0.6);
   --surface-hover: rgba(49, 130, 206, 0.5);
   --surface-active: rgba(66, 153, 225, 0.4);
-  
+
   --text: #e2e8f0;
   --text-secondary: #cbd5e0;
   --text-muted: #a0aec0;
   --text-inverse: #1a365d;
-  
+
   --border: rgba(66, 153, 225, 0.25);
   --border-light: rgba(66, 153, 225, 0.15);
   --border-strong: rgba(66, 153, 225, 0.4);
-  
+
   --success: #48bb78;
   --warning: #ecc94b;
   --error: #fc8181;
   --info: #63b3ed;
-  
+
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
@@ -128,7 +128,7 @@
    THEME: Purple Dream
    Rich violet with lavender accents
    ═══════════════════════════════════════════════════════════════ */
-[data-theme="purple"],
+[data-theme='purple'],
 .theme-purple {
   --primary: #44337a;
   --primary-light: #553c9a;
@@ -138,30 +138,30 @@
   --accent: #9f7aea;
   --accent-glow: rgba(159, 122, 234, 0.4);
   --accent-hover: #b794f4;
-  
+
   --background: rgba(68, 51, 122, 0.85);
   --background-solid: #44337a;
   --background-light: rgba(85, 60, 154, 0.9);
   --background-dark: rgba(54, 41, 98, 0.95);
-  
+
   --surface: rgba(107, 70, 193, 0.5);
   --surface-hover: rgba(128, 90, 213, 0.5);
   --surface-active: rgba(159, 122, 234, 0.4);
-  
+
   --text: #e9d8fd;
   --text-secondary: #d6bcfa;
   --text-muted: #b794f4;
   --text-inverse: #44337a;
-  
+
   --border: rgba(159, 122, 234, 0.25);
   --border-light: rgba(159, 122, 234, 0.15);
   --border-strong: rgba(159, 122, 234, 0.4);
-  
+
   --success: #68d391;
   --warning: #f6e05e;
   --error: #feb2b2;
   --info: #90cdf4;
-  
+
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
@@ -171,7 +171,7 @@
    THEME: Forest
    Deep emerald with mint accents
    ═══════════════════════════════════════════════════════════════ */
-[data-theme="green"],
+[data-theme='green'],
 .theme-green {
   --primary: #1c4532;
   --primary-light: #22543d;
@@ -181,30 +181,30 @@
   --accent: #48bb78;
   --accent-glow: rgba(72, 187, 120, 0.4);
   --accent-hover: #68d391;
-  
+
   --background: rgba(28, 69, 50, 0.85);
   --background-solid: #1c4532;
   --background-light: rgba(34, 84, 61, 0.9);
   --background-dark: rgba(22, 55, 40, 0.95);
-  
+
   --surface: rgba(39, 103, 73, 0.5);
   --surface-hover: rgba(47, 133, 90, 0.5);
   --surface-active: rgba(72, 187, 120, 0.4);
-  
+
   --text: #c6f6d5;
   --text-secondary: #9ae6b4;
   --text-muted: #68d391;
   --text-inverse: #1c4532;
-  
+
   --border: rgba(72, 187, 120, 0.25);
   --border-light: rgba(72, 187, 120, 0.15);
   --border-strong: rgba(72, 187, 120, 0.4);
-  
+
   --success: #68d391;
   --warning: #f6e05e;
   --error: #fc8181;
   --info: #63b3ed;
-  
+
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
@@ -214,7 +214,7 @@
    THEME: Sunset
    Warm crimson with coral accents
    ═══════════════════════════════════════════════════════════════ */
-[data-theme="sunset"],
+[data-theme='sunset'],
 .theme-sunset {
   --primary: #742a2a;
   --primary-light: #9b2c2c;
@@ -224,30 +224,30 @@
   --accent: #fc8181;
   --accent-glow: rgba(252, 129, 129, 0.4);
   --accent-hover: #feb2b2;
-  
+
   --background: rgba(116, 42, 42, 0.85);
   --background-solid: #742a2a;
   --background-light: rgba(155, 44, 44, 0.9);
   --background-dark: rgba(92, 34, 34, 0.95);
-  
+
   --surface: rgba(197, 48, 48, 0.5);
   --surface-hover: rgba(229, 62, 62, 0.5);
   --surface-active: rgba(252, 129, 129, 0.4);
-  
+
   --text: #fed7d7;
   --text-secondary: #feb2b2;
   --text-muted: #fc8181;
   --text-inverse: #742a2a;
-  
+
   --border: rgba(252, 129, 129, 0.25);
   --border-light: rgba(252, 129, 129, 0.15);
   --border-strong: rgba(252, 129, 129, 0.4);
-  
+
   --success: #68d391;
   --warning: #f6e05e;
   --error: #feb2b2;
   --info: #90cdf4;
-  
+
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #f6ad55 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
@@ -258,10 +258,9 @@
    ═══════════════════════════════════════════════════════════════ */
 .theme-transitioning,
 .theme-transitioning * {
-  transition: 
+  transition:
     background-color var(--transition-normal) var(--ease-smooth),
     border-color var(--transition-normal) var(--ease-smooth),
     color var(--transition-normal) var(--ease-smooth),
     box-shadow var(--transition-normal) var(--ease-smooth) !important;
 }
-

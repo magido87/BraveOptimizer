@@ -45,7 +45,11 @@ class OptionsController {
     this.setSliderValue('max-messages', this.settings.maxMessages || 50);
     this.setSliderValue('max-tokens', this.settings.maxTokens || 3000);
     document.getElementById('auto-trim-enabled').checked = this.settings.autoTrimEnabled || false;
-    this.setSliderValue('auto-trim-interval', this.settings.autoTrimInterval || 5000, v => `${v/1000}s`);
+    this.setSliderValue(
+      'auto-trim-interval',
+      this.settings.autoTrimInterval || 5000,
+      (v) => `${v / 1000}s`
+    );
 
     // Lazy Loading
     document.getElementById('lazy-load-enabled').checked = this.settings.lazyLoadEnabled !== false;
@@ -73,7 +77,7 @@ class OptionsController {
   setSliderValue(id, value, formatter = null) {
     const slider = document.getElementById(id);
     const display = document.getElementById(`${id}-value`);
-    
+
     if (slider) slider.value = value;
     if (display) display.textContent = formatter ? formatter(value) : value;
   }
@@ -85,7 +89,7 @@ class OptionsController {
     // Sliders
     this.setupSlider('max-messages', 'maxMessages');
     this.setupSlider('max-tokens', 'maxTokens');
-    this.setupSlider('auto-trim-interval', 'autoTrimInterval', v => `${v/1000}s`);
+    this.setupSlider('auto-trim-interval', 'autoTrimInterval', (v) => `${v / 1000}s`);
     this.setupSlider('lazy-load-chunk', 'lazyLoadChunkSize');
 
     // Toggles
@@ -113,7 +117,9 @@ class OptionsController {
     document.getElementById('import-file').addEventListener('change', (e) => this.handleImport(e));
 
     // Storage actions
-    document.getElementById('clear-cache-btn').addEventListener('click', () => this.handleClearCache());
+    document
+      .getElementById('clear-cache-btn')
+      .addEventListener('click', () => this.handleClearCache());
     document.getElementById('reset-btn').addEventListener('click', () => this.handleReset());
   }
 
@@ -185,7 +191,7 @@ class OptionsController {
    * @param {string} activeTheme
    */
   updateThemeSelector(activeTheme) {
-    document.querySelectorAll('.theme-option').forEach(option => {
+    document.querySelectorAll('.theme-option').forEach((option) => {
       option.classList.toggle('active', option.dataset.theme === activeTheme);
     });
   }
@@ -198,12 +204,12 @@ class OptionsController {
       const data = await Storage.exportAll();
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      
+
       const a = document.createElement('a');
       a.href = url;
       a.download = `dom-optimizer-settings-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
-      
+
       URL.revokeObjectURL(url);
       this.showSaveNotification('Settings exported');
     } catch (error) {
@@ -223,7 +229,7 @@ class OptionsController {
     try {
       const text = await file.text();
       const data = JSON.parse(text);
-      
+
       if (confirm('This will replace all current settings. Continue?')) {
         await Storage.importAll(data);
         this.settings = await Storage.getSettings();
@@ -257,7 +263,7 @@ class OptionsController {
   async handleReset() {
     if (confirm('Reset all settings to defaults? This cannot be undone.')) {
       await Storage.clear();
-      
+
       // Reload settings with defaults
       this.settings = await Storage.getSettings();
       this.populateSettings();
@@ -304,4 +310,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const options = new OptionsController();
   options.init();
 });
-

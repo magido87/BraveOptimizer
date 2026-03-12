@@ -33,9 +33,8 @@ class GrokAdapter extends BaseAdapter {
   detect() {
     const hostname = window.location.hostname;
     const pathname = window.location.pathname;
-    
-    return hostname === 'grok.x.ai' || 
-           (hostname === 'x.com' && pathname.includes('/i/grok'));
+
+    return hostname === 'grok.x.ai' || (hostname === 'x.com' && pathname.includes('/i/grok'));
   }
 
   /**
@@ -78,7 +77,7 @@ class GrokAdapter extends BaseAdapter {
       const messages = container.querySelectorAll(selector);
       if (messages.length > 0) {
         // Filter out non-message elements
-        return Array.from(messages).filter(el => {
+        return Array.from(messages).filter((el) => {
           const text = el.textContent || '';
           return text.length > 10;
         });
@@ -94,10 +93,11 @@ class GrokAdapter extends BaseAdapter {
    * @returns {string}
    */
   getMessageContent(messageNode) {
-    const contentDiv = messageNode.querySelector('[class*="content"]') ||
-                       messageNode.querySelector('[class*="text"]') ||
-                       messageNode;
-    
+    const contentDiv =
+      messageNode.querySelector('[class*="content"]') ||
+      messageNode.querySelector('[class*="text"]') ||
+      messageNode;
+
     return contentDiv.textContent || '';
   }
 
@@ -108,12 +108,10 @@ class GrokAdapter extends BaseAdapter {
    */
   isUserMessage(messageNode) {
     const className = messageNode.className || '';
-    const dataAttrs = messageNode.getAttribute('data-role') || 
-                      messageNode.getAttribute('data-author') || '';
-    
-    return className.includes('user') || 
-           className.includes('human') ||
-           dataAttrs.includes('user');
+    const dataAttrs =
+      messageNode.getAttribute('data-role') || messageNode.getAttribute('data-author') || '';
+
+    return className.includes('user') || className.includes('human') || dataAttrs.includes('user');
   }
 
   /**
@@ -123,14 +121,16 @@ class GrokAdapter extends BaseAdapter {
    */
   isAssistantMessage(messageNode) {
     const className = messageNode.className || '';
-    const dataAttrs = messageNode.getAttribute('data-role') || 
-                      messageNode.getAttribute('data-author') || '';
-    
-    return className.includes('grok') || 
-           className.includes('assistant') ||
-           className.includes('ai') ||
-           dataAttrs.includes('grok') ||
-           dataAttrs.includes('assistant');
+    const dataAttrs =
+      messageNode.getAttribute('data-role') || messageNode.getAttribute('data-author') || '';
+
+    return (
+      className.includes('grok') ||
+      className.includes('assistant') ||
+      className.includes('ai') ||
+      dataAttrs.includes('grok') ||
+      dataAttrs.includes('assistant')
+    );
   }
 
   /**
@@ -151,4 +151,3 @@ class GrokAdapter extends BaseAdapter {
 if (typeof window !== 'undefined') {
   window.GrokAdapter = GrokAdapter;
 }
-

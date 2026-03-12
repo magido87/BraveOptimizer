@@ -3,7 +3,7 @@
  * Coordinates all DOM optimization features
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Prevent multiple initializations
@@ -97,7 +97,6 @@
           site: this.siteDetector.getSiteName(),
           supported: this.siteDetector.isSupported()
         });
-
       } catch (error) {
         console.error('[DOMOptimizer] Initialization error:', error);
       }
@@ -122,7 +121,7 @@
       };
 
       // Lazy loader callbacks
-      this.lazyLoader.onLoad = (data) => {
+      this.lazyLoader.onLoad = (_data) => {
         if (this.overlay) this.overlay.update();
       };
 
@@ -169,30 +168,34 @@
             sendResponse(this.getStatus());
             break;
 
-          case 'trim':
+          case 'trim': {
             const trimResult = await this.trimmer.trim(message.options);
             sendResponse(trimResult);
             break;
+          }
 
-          case 'restore':
+          case 'restore': {
             const restoreResult = await this.trimmer.restoreAll();
             sendResponse(restoreResult);
             break;
+          }
 
           case 'toggleAutoTrim':
             this.toggleAutoTrim();
             sendResponse({ autoTrimEnabled: this.settings.autoTrimEnabled });
             break;
 
-          case 'togglePerformanceBoost':
+          case 'togglePerformanceBoost': {
             const isActive = this.performanceBoost.toggle();
             sendResponse({ isActive });
             break;
+          }
 
-          case 'freeMemory':
+          case 'freeMemory': {
             const memResult = this.performanceBoost.freeMemory();
             sendResponse(memResult);
             break;
+          }
 
           case 'updateSettings':
             await this.updateSettings(message.settings);
@@ -272,7 +275,7 @@
         if (this.adapter.isAtBottom()) {
           this.trimmer.trim();
         }
-      }, this.settings.autoTrimInterval || CONFIG.autoTrim.interval);
+      }, this.settings.autoTrimInterval || DOMOptimizerConfig.autoTrim.interval);
 
       console.log('[DOMOptimizer] Auto-trim started');
     }
@@ -419,6 +422,4 @@
     // DOM already loaded
     window.DOMOptimizer.init();
   }
-
 })();
-

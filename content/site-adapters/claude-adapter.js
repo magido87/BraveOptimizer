@@ -10,7 +10,8 @@ class ClaudeAdapter extends BaseAdapter {
     this.hostname = 'claude.ai';
     this.selectors = {
       container: '[class*="conversation-content"]',
-      messages: '[class*="message-content"], [class*="human-message"], [class*="assistant-message"]',
+      messages:
+        '[class*="message-content"], [class*="human-message"], [class*="assistant-message"]',
       userMessage: '[class*="human"], [class*="user"]',
       assistantMessage: '[class*="assistant"], [class*="claude"]',
       input: '[contenteditable="true"], textarea',
@@ -86,7 +87,7 @@ class ClaudeAdapter extends BaseAdapter {
 
     // Fallback: find divs that look like messages
     const possibleMessages = container.querySelectorAll('div[class*="py-"], div[class*="px-"]');
-    return Array.from(possibleMessages).filter(el => {
+    return Array.from(possibleMessages).filter((el) => {
       const text = el.textContent || '';
       return text.length > 20 && el.children.length > 0;
     });
@@ -98,10 +99,11 @@ class ClaudeAdapter extends BaseAdapter {
    * @returns {string}
    */
   getMessageContent(messageNode) {
-    const contentDiv = messageNode.querySelector('[class*="prose"]') ||
-                       messageNode.querySelector('[class*="markdown"]') ||
-                       messageNode;
-    
+    const contentDiv =
+      messageNode.querySelector('[class*="prose"]') ||
+      messageNode.querySelector('[class*="markdown"]') ||
+      messageNode;
+
     return contentDiv.textContent || '';
   }
 
@@ -112,9 +114,11 @@ class ClaudeAdapter extends BaseAdapter {
    */
   isUserMessage(messageNode) {
     const className = messageNode.className || '';
-    return className.includes('human') || 
-           className.includes('user') ||
-           messageNode.querySelector('[class*="human"]') !== null;
+    return (
+      className.includes('human') ||
+      className.includes('user') ||
+      messageNode.querySelector('[class*="human"]') !== null
+    );
   }
 
   /**
@@ -124,9 +128,11 @@ class ClaudeAdapter extends BaseAdapter {
    */
   isAssistantMessage(messageNode) {
     const className = messageNode.className || '';
-    return className.includes('assistant') || 
-           className.includes('claude') ||
-           messageNode.querySelector('[class*="assistant"]') !== null;
+    return (
+      className.includes('assistant') ||
+      className.includes('claude') ||
+      messageNode.querySelector('[class*="assistant"]') !== null
+    );
   }
 
   /**
@@ -134,12 +140,7 @@ class ClaudeAdapter extends BaseAdapter {
    * @returns {Array<string>}
    */
   getAnimationSelectors() {
-    return [
-      '[class*="typing"]',
-      '[class*="streaming"]',
-      '[class*="animate"]',
-      '[class*="pulse"]'
-    ];
+    return ['[class*="typing"]', '[class*="streaming"]', '[class*="animate"]', '[class*="pulse"]'];
   }
 
   /**
@@ -161,4 +162,3 @@ class ClaudeAdapter extends BaseAdapter {
 if (typeof window !== 'undefined') {
   window.ClaudeAdapter = ClaudeAdapter;
 }
-

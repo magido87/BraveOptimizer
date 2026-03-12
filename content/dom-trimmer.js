@@ -21,7 +21,7 @@ class DOMTrimmer {
     this.totalTokensTrimmed = 0;
     this.isRestoring = false;
     this.isTrimming = false;
-    
+
     // Callbacks
     this.onTrim = null;
     this.onRestore = null;
@@ -53,7 +53,7 @@ class DOMTrimmer {
     try {
       const maxMessages = options.maxMessages || this.options.maxMessages;
       const messages = this.adapter.getMessageNodes();
-      
+
       if (messages.length <= maxMessages) {
         console.log('[DOMTrimmer] Nothing to trim');
         this.isTrimming = false;
@@ -62,17 +62,16 @@ class DOMTrimmer {
 
       const toTrim = messages.length - maxMessages;
       const messagesToTrim = messages.slice(0, toTrim);
-      
+
       let trimmedCount = 0;
       let tokensTrimmed = 0;
 
       // Batch DOM operations
-      const fragment = document.createDocumentFragment();
       const placeholders = [];
 
       for (let i = 0; i < messagesToTrim.length; i++) {
         const message = messagesToTrim[i];
-        
+
         // Skip if should be preserved
         if (this.adapter.shouldPreserve(message)) {
           continue;
@@ -83,7 +82,7 @@ class DOMTrimmer {
 
         // Store in virtual store
         this.virtualStore.set(messageId, {
-          html: message.outerHTML,
+          node: message.cloneNode(true),
           tokens: tokens,
           index: i,
           timestamp: Date.now()
@@ -101,18 +100,22 @@ class DOMTrimmer {
       // Apply DOM changes in batch
       requestAnimationFrame(() => {
         for (const { message, placeholder } of placeholders) {
-          message.parentNode.replaceChild(placeholder, message);
+          if (message.parentNode) {
+            message.parentNode.replaceChild(placeholder, message);
+          }
         }
       });
 
       // Wait for next frame
-      await new Promise(resolve => requestAnimationFrame(resolve));
+      await new Promise((resolve) => requestAnimationFrame(resolve));
 
       this.trimmedCount += trimmedCount;
       this.totalTokensTrimmed += tokensTrimmed;
 
       const duration = performance.now() - startTime;
-      console.log(`[DOMTrimmer] Trimmed ${trimmedCount} messages (${tokensTrimmed} tokens) in ${duration.toFixed(2)}ms`);
+      console.log(
+        `[DOMTrimmer] Trimmed ${trimmedCount} messages (${tokensTrimmed} tokens) in ${duration.toFixed(2)}ms`
+      );
 
       // Trigger callback
       if (this.onTrim) {
@@ -131,7 +134,6 @@ class DOMTrimmer {
         tokens: tokensTrimmed,
         duration
       };
-
     } catch (error) {
       console.error('[DOMTrimmer] Trim error:', error);
       if (this.onError) this.onError(error);
@@ -168,9 +170,9 @@ class DOMTrimmer {
       for (const chunk of chunks) {
         await this.restoreChunk(chunk);
         restoredCount += chunk.length;
-        
+
         // Small delay between chunks
-        await new Promise(resolve => setTimeout(resolve, this.options.restoreDelay));
+        await new Promise((resolve) => setTimeout(resolve, this.options.restoreDelay));
       }
 
       // Clear virtual store
@@ -195,7 +197,6 @@ class DOMTrimmer {
         restored: restoredCount,
         duration
       };
-
     } catch (error) {
       console.error('[DOMTrimmer] Restore error:', error);
       if (this.onError) this.onError(error);
@@ -209,16 +210,14 @@ class DOMTrimmer {
    * @param {Array} placeholders - Placeholder elements
    */
   async restoreChunk(placeholders) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       requestAnimationFrame(() => {
         for (const placeholder of placeholders) {
           const messageId = placeholder.getAttribute('data-trimmed-id');
           const stored = this.virtualStore.get(messageId);
 
           if (stored) {
-            const temp = document.createElement('div');
-            temp.innerHTML = stored.html;
-            const restored = temp.firstElementChild;
+            const restored = stored.node?.cloneNode(true);
 
             if (restored && placeholder.parentNode) {
               placeholder.parentNode.replaceChild(restored, placeholder);
@@ -247,20 +246,19 @@ class DOMTrimmer {
     try {
       const placeholders = document.querySelectorAll('.dom-optimizer-placeholder[data-trimmed-id]');
       const toRestore = Array.from(placeholders).slice(-count);
-      
+
       await this.restoreChunk(toRestore);
 
-      this.isRestoring = false;
       return {
         success: true,
         restored: toRestore.length,
         remaining: this.virtualStore.size
       };
-
     } catch (error) {
       console.error('[DOMTrimmer] Partial restore error:', error);
-      this.isRestoring = false;
       return { success: false, error: error.message };
+    } finally {
+      this.isRestoring = false;
     }
   }
 
@@ -317,4 +315,3 @@ class DOMTrimmer {
 if (typeof window !== 'undefined') {
   window.DOMTrimmer = DOMTrimmer;
 }
-

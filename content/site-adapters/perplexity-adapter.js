@@ -31,8 +31,10 @@ class PerplexityAdapter extends BaseAdapter {
    * @returns {boolean}
    */
   detect() {
-    return window.location.hostname === 'www.perplexity.ai' ||
-           window.location.hostname === 'perplexity.ai';
+    return (
+      window.location.hostname === 'www.perplexity.ai' ||
+      window.location.hostname === 'perplexity.ai'
+    );
   }
 
   /**
@@ -88,11 +90,12 @@ class PerplexityAdapter extends BaseAdapter {
    */
   getMessageContent(messageNode) {
     // Perplexity has sources and main content
-    const contentDiv = messageNode.querySelector('[class*="prose"]') ||
-                       messageNode.querySelector('[class*="markdown"]') ||
-                       messageNode.querySelector('[class*="content"]') ||
-                       messageNode;
-    
+    const contentDiv =
+      messageNode.querySelector('[class*="prose"]') ||
+      messageNode.querySelector('[class*="markdown"]') ||
+      messageNode.querySelector('[class*="content"]') ||
+      messageNode;
+
     return contentDiv.textContent || '';
   }
 
@@ -103,9 +106,9 @@ class PerplexityAdapter extends BaseAdapter {
    */
   isUserMessage(messageNode) {
     const className = messageNode.className || '';
-    return className.includes('query') || 
-           className.includes('question') ||
-           className.includes('user');
+    return (
+      className.includes('query') || className.includes('question') || className.includes('user')
+    );
   }
 
   /**
@@ -115,9 +118,11 @@ class PerplexityAdapter extends BaseAdapter {
    */
   isAssistantMessage(messageNode) {
     const className = messageNode.className || '';
-    return className.includes('answer') || 
-           className.includes('response') ||
-           className.includes('assistant');
+    return (
+      className.includes('answer') ||
+      className.includes('response') ||
+      className.includes('assistant')
+    );
   }
 
   /**
@@ -153,4 +158,3 @@ class PerplexityAdapter extends BaseAdapter {
 if (typeof window !== 'undefined') {
   window.PerplexityAdapter = PerplexityAdapter;
 }
-

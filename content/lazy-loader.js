@@ -59,7 +59,7 @@ class LazyLoader {
    * Handle scroll event
    * @param {Event} event
    */
-  handleScroll(event) {
+  handleScroll(_event) {
     if (!this.options.enabled || this.isPaused) return;
 
     // Clear existing debounce
@@ -71,7 +71,7 @@ class LazyLoader {
     const currentScrollTop = this.scrollContainer.scrollTop;
     const currentTime = Date.now();
     const timeDelta = currentTime - this.lastScrollTime;
-    
+
     if (timeDelta > 0) {
       this.scrollVelocity = Math.abs(currentScrollTop - this.lastScrollTop) / timeDelta;
     }
@@ -126,10 +126,7 @@ class LazyLoader {
       // Calculate chunk size based on scroll velocity
       let chunkSize = this.options.chunkSize;
       if (this.scrollVelocity > 1) {
-        chunkSize = Math.min(
-          this.options.chunkSize * 2,
-          CONFIG.lazyLoader.maxChunkSize
-        );
+        chunkSize = Math.min(this.options.chunkSize * 2, CONFIG.lazyLoader.maxChunkSize);
       }
 
       // Preserve scroll position
@@ -147,7 +144,9 @@ class LazyLoader {
           this.scrollContainer.scrollTop = scrollTop + heightDiff;
         });
 
-        console.log(`[LazyLoader] Loaded ${result.restored} messages, ${result.remaining} remaining`);
+        console.log(
+          `[LazyLoader] Loaded ${result.restored} messages, ${result.remaining} remaining`
+        );
 
         if (this.onLoad) {
           this.onLoad({
@@ -156,7 +155,6 @@ class LazyLoader {
           });
         }
       }
-
     } catch (error) {
       console.error('[LazyLoader] Load error:', error);
     } finally {
@@ -232,4 +230,3 @@ class LazyLoader {
 if (typeof window !== 'undefined') {
   window.LazyLoader = LazyLoader;
 }
-

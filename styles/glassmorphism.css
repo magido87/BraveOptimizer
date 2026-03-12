@@ -14,7 +14,7 @@
   -webkit-backdrop-filter: blur(var(--blur-md));
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: 
+  box-shadow:
     var(--shadow-lg),
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
@@ -23,7 +23,7 @@
 
 .glass-panel:hover {
   border-color: var(--border-strong);
-  box-shadow: 
+  box-shadow:
     var(--shadow-lg),
     var(--shadow-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
@@ -88,7 +88,7 @@
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   pointer-events: none;
 }
@@ -418,8 +418,12 @@
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -530,7 +534,8 @@
 }
 
 @keyframes blob {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
   25% {
@@ -546,7 +551,7 @@
 
 /* Glow effect on hover */
 .glass-glow:hover {
-  box-shadow: 
+  box-shadow:
     var(--shadow-lg),
     0 0 30px var(--accent-glow),
     0 0 60px var(--accent-glow);
@@ -558,11 +563,14 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: var(--shadow-sm);
   }
   50% {
-    box-shadow: var(--shadow-sm), 0 0 20px var(--accent-glow);
+    box-shadow:
+      var(--shadow-sm),
+      0 0 20px var(--accent-glow);
   }
 }
 
@@ -599,23 +607,60 @@
    Utility Classes
    ═══════════════════════════════════════════════════════════════ */
 
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-xs { gap: var(--spacing-xs); }
-.gap-sm { gap: var(--spacing-sm); }
-.gap-md { gap: var(--spacing-md); }
-.gap-lg { gap: var(--spacing-lg); }
-.p-sm { padding: var(--spacing-sm); }
-.p-md { padding: var(--spacing-md); }
-.p-lg { padding: var(--spacing-lg); }
-.m-0 { margin: 0; }
-.w-full { width: 100%; }
-.text-center { text-align: center; }
-.opacity-0 { opacity: 0; }
-.opacity-100 { opacity: 1; }
-.pointer { cursor: pointer; }
-.no-select { user-select: none; }
-
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-xs {
+  gap: var(--spacing-xs);
+}
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+.gap-md {
+  gap: var(--spacing-md);
+}
+.gap-lg {
+  gap: var(--spacing-lg);
+}
+.p-sm {
+  padding: var(--spacing-sm);
+}
+.p-md {
+  padding: var(--spacing-md);
+}
+.p-lg {
+  padding: var(--spacing-lg);
+}
+.m-0 {
+  margin: 0;
+}
+.w-full {
+  width: 100%;
+}
+.text-center {
+  text-align: center;
+}
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-100 {
+  opacity: 1;
+}
+.pointer {
+  cursor: pointer;
+}
+.no-select {
+  user-select: none;
+}

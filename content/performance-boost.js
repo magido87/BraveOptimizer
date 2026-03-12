@@ -9,7 +9,8 @@ class PerformanceBoost {
     this.options = {
       pauseAnimations: options.pauseAnimations ?? CONFIG.performance.pauseAnimations,
       pauseTransitions: options.pauseTransitions ?? CONFIG.performance.pauseTransitions,
-      removeUnusedListeners: options.removeUnusedListeners ?? CONFIG.performance.removeUnusedListeners,
+      removeUnusedListeners:
+        options.removeUnusedListeners ?? CONFIG.performance.removeUnusedListeners,
       optimizeReflow: options.optimizeReflow ?? CONFIG.performance.optimizeReflow,
       reduceGPULoad: options.reduceGPULoad ?? CONFIG.performance.reduceGPULoad,
       throttleScrollEvents: options.throttleScrollEvents ?? CONFIG.performance.throttleScrollEvents,
@@ -63,7 +64,6 @@ class PerformanceBoost {
       if (this.onActivate) {
         this.onActivate({ duration });
       }
-
     } catch (error) {
       console.error('[PerformanceBoost] Activation error:', error);
     }
@@ -89,7 +89,6 @@ class PerformanceBoost {
       if (this.onDeactivate) {
         this.onDeactivate();
       }
-
     } catch (error) {
       console.error('[PerformanceBoost] Deactivation error:', error);
     }
@@ -113,10 +112,10 @@ class PerformanceBoost {
    */
   pauseAllAnimations() {
     const animationSelectors = this.adapter.getAnimationSelectors();
-    
+
     for (const selector of animationSelectors) {
       const elements = document.querySelectorAll(selector);
-      elements.forEach(el => {
+      elements.forEach((el) => {
         const computedStyle = window.getComputedStyle(el);
         if (computedStyle.animationName !== 'none') {
           this.originalStyles.set(el, {
@@ -135,7 +134,7 @@ class PerformanceBoost {
    * Restore all paused animations
    */
   restoreAllAnimations() {
-    this.pausedAnimations.forEach(el => {
+    this.pausedAnimations.forEach((el) => {
       const original = this.originalStyles.get(el);
       if (original) {
         el.style.animationPlayState = original.animationPlayState || '';
@@ -179,10 +178,10 @@ class PerformanceBoost {
    */
   reduceGPULoad() {
     const heavySelectors = this.adapter.getHeavyElementSelectors();
-    
+
     for (const selector of heavySelectors) {
       const elements = document.querySelectorAll(selector);
-      elements.forEach(el => {
+      elements.forEach((el) => {
         // Store original and apply optimizations
         if (!this.originalStyles.has(el)) {
           this.originalStyles.set(el, {
@@ -191,7 +190,7 @@ class PerformanceBoost {
             transform: el.style.transform
           });
         }
-        
+
         // Reduce complex effects
         if (el.style.filter && el.style.filter.includes('blur')) {
           el.style.filter = 'none';
@@ -294,10 +293,10 @@ class PerformanceBoost {
     const images = document.querySelectorAll('img');
     let freedImages = 0;
 
-    images.forEach(img => {
+    images.forEach((img) => {
       const rect = img.getBoundingClientRect();
       const isOffscreen = rect.bottom < -500 || rect.top > window.innerHeight + 500;
-      
+
       if (isOffscreen && img.src && !img.dataset.originalSrc) {
         img.dataset.originalSrc = img.src;
         img.src = '';
@@ -309,10 +308,10 @@ class PerformanceBoost {
     const videos = document.querySelectorAll('video');
     let pausedVideos = 0;
 
-    videos.forEach(video => {
+    videos.forEach((video) => {
       const rect = video.getBoundingClientRect();
       const isOffscreen = rect.bottom < -200 || rect.top > window.innerHeight + 200;
-      
+
       if (isOffscreen && !video.paused) {
         video.pause();
         video.dataset.wasPaused = 'true';
@@ -334,7 +333,7 @@ class PerformanceBoost {
   restoreResources() {
     // Restore images
     const images = document.querySelectorAll('img[data-original-src]');
-    images.forEach(img => {
+    images.forEach((img) => {
       if (img.dataset.originalSrc) {
         img.src = img.dataset.originalSrc;
         delete img.dataset.originalSrc;
@@ -343,7 +342,7 @@ class PerformanceBoost {
 
     // Resume videos
     const videos = document.querySelectorAll('video[data-was-paused]');
-    videos.forEach(video => {
+    videos.forEach((video) => {
       delete video.dataset.wasPaused;
       // Don't auto-play, let user control
     });
@@ -372,13 +371,13 @@ class PerformanceBoost {
    */
   updateOptions(newOptions) {
     const wasActive = this.isActive;
-    
+
     if (wasActive) {
       this.deactivate();
     }
-    
+
     this.options = { ...this.options, ...newOptions };
-    
+
     if (wasActive) {
       this.activate();
     }
@@ -398,4 +397,3 @@ class PerformanceBoost {
 if (typeof window !== 'undefined') {
   window.PerformanceBoost = PerformanceBoost;
 }
-

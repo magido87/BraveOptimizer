@@ -9,21 +9,21 @@ class StateManager {
       // Current site info
       currentSite: null,
       isSupported: false,
-      
+
       // Trim state
       trimmedCount: 0,
       visibleCount: 0,
       totalCount: 0,
-      
+
       // Feature states
       autoTrimEnabled: false,
       performanceBoostActive: false,
       lazyLoadEnabled: true,
-      
+
       // UI state
       overlayVisible: true,
       currentTheme: 'ocean',
-      
+
       // Session stats
       sessionTrims: 0,
       sessionRestores: 0,
@@ -58,12 +58,10 @@ class StateManager {
   setState(updates) {
     const oldState = { ...this.state };
     this.state = { ...this.state, ...updates };
-    
+
     // Notify listeners of changes
-    const changedKeys = Object.keys(updates).filter(
-      key => oldState[key] !== this.state[key]
-    );
-    
+    const changedKeys = Object.keys(updates).filter((key) => oldState[key] !== this.state[key]);
+
     if (changedKeys.length > 0) {
       this.notifyListeners(changedKeys, oldState);
     }
@@ -98,10 +96,10 @@ class StateManager {
     this.listeners.forEach(({ callback, keys }) => {
       // If specific keys are watched, only notify if they changed
       if (keys) {
-        const relevantChanges = changedKeys.filter(k => keys.includes(k));
+        const relevantChanges = changedKeys.filter((k) => keys.includes(k));
         if (relevantChanges.length === 0) return;
       }
-      
+
       try {
         callback(this.state, oldState, changedKeys);
       } catch (error) {
@@ -167,13 +165,13 @@ class StateManager {
       this.setState({ [key]: !this.state[key] });
       return this.state[key];
     }
-    
+
     const activeKey = `${feature}Active`;
     if (activeKey in this.state) {
       this.setState({ [activeKey]: !this.state[activeKey] });
       return this.state[activeKey];
     }
-    
+
     return false;
   }
 
@@ -224,4 +222,3 @@ const stateManager = new StateManager();
 if (typeof window !== 'undefined') {
   window.DOMOptimizerState = stateManager;
 }
-

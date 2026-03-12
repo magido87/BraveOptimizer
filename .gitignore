@@ -19,7 +19,7 @@ Thumbs.db
 *.tmp
 *.temp
 *.log
+node_modules/
 
 # generated
 generate-icons.sh
-

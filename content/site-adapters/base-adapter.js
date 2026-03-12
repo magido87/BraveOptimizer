@@ -32,7 +32,7 @@ class BaseAdapter {
    */
   async init() {
     if (this.isInitialized) return true;
-    
+
     try {
       await this.waitForContainer();
       this.isInitialized = true;
@@ -52,22 +52,22 @@ class BaseAdapter {
   waitForContainer(timeout = 10000) {
     return new Promise((resolve, reject) => {
       const startTime = Date.now();
-      
+
       const check = () => {
         const container = this.getContainer();
         if (container) {
           resolve(container);
           return;
         }
-        
+
         if (Date.now() - startTime > timeout) {
           reject(new Error('Container not found'));
           return;
         }
-        
+
         requestAnimationFrame(check);
       };
-      
+
       check();
     });
   }
@@ -119,8 +119,10 @@ class BaseAdapter {
    */
   isUserMessage(messageNode) {
     if (!this.selectors.userMessage) return false;
-    return messageNode.matches(this.selectors.userMessage) || 
-           messageNode.querySelector(this.selectors.userMessage) !== null;
+    return (
+      messageNode.matches(this.selectors.userMessage) ||
+      messageNode.querySelector(this.selectors.userMessage) !== null
+    );
   }
 
   /**
@@ -130,8 +132,10 @@ class BaseAdapter {
    */
   isAssistantMessage(messageNode) {
     if (!this.selectors.assistantMessage) return false;
-    return messageNode.matches(this.selectors.assistantMessage) || 
-           messageNode.querySelector(this.selectors.assistantMessage) !== null;
+    return (
+      messageNode.matches(this.selectors.assistantMessage) ||
+      messageNode.querySelector(this.selectors.assistantMessage) !== null
+    );
   }
 
   /**
@@ -154,7 +158,9 @@ class BaseAdapter {
    */
   shouldPreserve(element) {
     const preserveElements = this.getPreserveElements();
-    return preserveElements.some(pe => pe === element || pe.contains(element) || element.contains(pe));
+    return preserveElements.some(
+      (pe) => pe === element || pe.contains(element) || element.contains(pe)
+    );
   }
 
   /**
@@ -172,7 +178,7 @@ class BaseAdapter {
   isAtBottom() {
     const container = this.getScrollContainer();
     if (!container) return true;
-    
+
     const threshold = 100;
     return container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
   }
@@ -194,9 +200,9 @@ class BaseAdapter {
    * @returns {string}
    */
   getMessageId(messageNode, index) {
-    return messageNode.getAttribute('data-message-id') || 
-           messageNode.id || 
-           `msg-${index}-${Date.now()}`;
+    return (
+      messageNode.getAttribute('data-message-id') || messageNode.id || `msg-${index}-${Date.now()}`
+    );
   }
 
   /**
@@ -226,13 +232,7 @@ class BaseAdapter {
    * @returns {Array<string>}
    */
   getHeavyElementSelectors() {
-    return [
-      'video',
-      'iframe',
-      'canvas',
-      'img[src*="gif"]',
-      '[style*="animation"]'
-    ];
+    return ['video', 'iframe', 'canvas', 'img[src*="gif"]', '[style*="animation"]'];
   }
 
   /**
@@ -247,4 +247,3 @@ class BaseAdapter {
 if (typeof window !== 'undefined') {
   window.BaseAdapter = BaseAdapter;
 }
-

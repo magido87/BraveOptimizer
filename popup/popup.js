@@ -126,8 +126,10 @@ class PopupController {
 
     // Update stats
     if (this.status.trimmer) {
-      document.getElementById('visible-count').textContent = this.status.trimmer.visibleMessages || 0;
-      document.getElementById('trimmed-count').textContent = this.status.trimmer.trimmedMessages || 0;
+      document.getElementById('visible-count').textContent =
+        this.status.trimmer.visibleMessages || 0;
+      document.getElementById('trimmed-count').textContent =
+        this.status.trimmer.trimmedMessages || 0;
       document.getElementById('total-count').textContent = this.status.trimmer.totalMessages || 0;
     }
 
@@ -160,13 +162,17 @@ class PopupController {
   renderThemes() {
     const themeGrid = document.getElementById('theme-grid');
     const themes = ['ocean', 'darkBlue', 'purple', 'green', 'sunset'];
-    
-    themeGrid.innerHTML = themes.map(theme => `
+
+    themeGrid.innerHTML = themes
+      .map(
+        (theme) => `
       <button class="theme-btn ${theme === this.settings.theme ? 'active' : ''}" 
               data-theme="${theme}" 
               title="${CONFIG.themes[theme]?.name || theme}">
       </button>
-    `).join('');
+    `
+      )
+      .join('');
   }
 
   /**
@@ -175,9 +181,9 @@ class PopupController {
    */
   applyTheme(theme) {
     document.body.setAttribute('data-theme', theme);
-    
+
     // Update active state
-    document.querySelectorAll('.theme-btn').forEach(btn => {
+    document.querySelectorAll('.theme-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.theme === theme);
     });
   }
@@ -191,14 +197,14 @@ class PopupController {
 
     try {
       const result = await this.sendMessage({ action: 'trim' });
-      
+
       if (result.success) {
         this.showNotification(`Trimmed ${result.trimmed} messages`, 'success');
         await this.refreshStatus();
       } else {
         this.showNotification(result.reason || 'Trim failed', 'error');
       }
-    } catch (error) {
+    } catch (_error) {
       this.showNotification('Could not trim', 'error');
     }
 
@@ -214,14 +220,14 @@ class PopupController {
 
     try {
       const result = await this.sendMessage({ action: 'restore' });
-      
+
       if (result.success) {
         this.showNotification(`Restored ${result.restored} messages`, 'success');
         await this.refreshStatus();
       } else {
         this.showNotification(result.reason || 'Restore failed', 'error');
       }
-    } catch (error) {
+    } catch (_error) {
       this.showNotification('Could not restore', 'error');
     }
 
@@ -237,12 +243,12 @@ class PopupController {
 
     try {
       const result = await this.sendMessage({ action: 'freeMemory' });
-      
+
       this.showNotification(
         `Freed ${result.freedImages || 0} images, paused ${result.pausedVideos || 0} videos`,
         'success'
       );
-    } catch (error) {
+    } catch (_error) {
       this.showNotification('Could not free memory', 'error');
     }
 
@@ -259,7 +265,7 @@ class PopupController {
     try {
       await Storage.clearCache();
       this.showNotification('Cache purged', 'success');
-    } catch (error) {
+    } catch (_error) {
       this.showNotification('Could not purge cache', 'error');
     }
 
@@ -297,7 +303,7 @@ class PopupController {
         result.isActive ? 'Performance boost ON' : 'Performance boost OFF',
         'success'
       );
-    } catch (error) {
+    } catch (_error) {
       this.showNotification('Could not toggle performance boost', 'error');
       // Revert checkbox
       document.getElementById('perf-boost-toggle').checked = !enabled;
@@ -321,7 +327,7 @@ class PopupController {
     }
 
     // Update active state
-    document.querySelectorAll('.theme-btn').forEach(btn => {
+    document.querySelectorAll('.theme-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.theme === theme);
     });
   }
@@ -354,7 +360,7 @@ class PopupController {
    */
   showNotification(message, type = 'success') {
     // Remove existing notifications
-    document.querySelectorAll('.popup-notification').forEach(n => n.remove());
+    document.querySelectorAll('.popup-notification').forEach((n) => n.remove());
 
     const notification = document.createElement('div');
     notification.className = `popup-notification ${type}`;
@@ -388,4 +394,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const popup = new PopupController();
   popup.init();
 });
-

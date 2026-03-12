@@ -1,118 +1,148 @@
-# DOM Performance Optimizer
+# BraveOptimizer
 
-browser extension that fixes slow ai chat interfaces.
+BraveOptimizer is a Manifest V3 browser extension that improves responsiveness on supported AI chat sites by trimming older conversation nodes from the live DOM and restoring them on demand.
 
-long conversations in chatgpt, claude, grok, perplexity, and gemini cause massive browser lag. the page tries to render thousands of dom nodes and everything slows down. this extension trims old messages from the dom while keeping them in memory. scroll up and they lazy load back. nothing is lost.
+The project is intentionally small:
 
-![overlay widget on chatgpt](screenshots/overlay-chatgpt.png)
-
-## features
-
-**dom trimming** removes old messages from the rendered page to reduce memory usage and improve scroll performance. messages stay in memory and can be restored instantly.
-
-**lazy loading** automatically loads older messages in chunks when you scroll up. adjusts chunk size based on scroll speed.
-
-**performance boost** pauses css animations and transitions. applies will change and contain hints to reduce layout thrashing and gpu load.
-
-**auto trim** keeps the dom light automatically when youre at the bottom of the conversation. pauses when you scroll up to browse history.
-
-**keyboard shortcuts** alt+t to trim, alt+r to restore, alt+a for auto mode, alt+p for performance boost.
-
-## supported sites
-
-- chatgpt (chat.openai.com, chatgpt.com)
-- claude (claude.ai)
-- grok (grok.x.ai, x.com/i/grok)
-- perplexity (perplexity.ai)
-- gemini (gemini.google.com)
-- generic fallback for other sites
-
-## installation
-
-1. clone this repo or download as zip
-2. go to `chrome://extensions` or `brave://extensions`
-3. enable developer mode
-4. click load unpacked
-5. select the folder
-
-no build step. no dependencies. just load and use.
-
-## screenshots
-
-![settings page](screenshots/settings-trimmer.png)
-
-![performance and themes](screenshots/settings-performance.png)
-
-## usage
-
-click the extension icon to open controls. use the slider to set how many messages to keep visible. lower values mean better performance.
-
-**trim dom** removes old messages immediately
-
-**restore all** brings everything back
-
-**free memory** clears offscreen images and pauses background videos
-
-**purge cache** clears extension storage
-
-## settings
-
-right click the extension icon and select options to configure:
-
-- max visible messages
-- auto trim interval
-- lazy load chunk size
-- performance optimizations
-- color theme
-- overlay visibility
-
-settings can be exported and imported as json.
-
-## how it works
-
-the extension uses site specific adapters to identify message elements in each chat interface. when you trim, it removes dom nodes and stores references in a map. restoration reinjects nodes in the correct order.
-
-the lazy loader monitors scroll position and loads chunks of messages as you approach the top. chunk size adjusts dynamically based on scroll velocity.
-
-performance boost injects css that disables animations and applies containment properties to prevent unnecessary reflows.
-
-## technical details
-
-- manifest v3
-- service worker background
-- content scripts for dom manipulation
-- chrome.storage.local for settings
-- no external requests
+- no build step
 - no analytics
-- no tracking
+- no remote code
+- no network requests from the extension
 
-## file structure
+![Overlay widget on ChatGPT](screenshots/overlay-chatgpt.png)
 
+## Supported Sites
+
+The extension is scoped to the AI chat sites that are implemented in the repository and still appear intentionally supported by the codebase:
+
+- ChatGPT (`chatgpt.com`)
+- Claude (`claude.ai`)
+- Grok (`grok.x.ai`, `x.com/i/grok`)
+- Perplexity (`perplexity.ai`, `www.perplexity.ai`)
+- Gemini (`gemini.google.com`)
+
+Legacy or unrelated targets such as `bard.google.com`, generic wildcard hosts, social feeds, and broad catch-all page access have been removed.
+
+## Architecture
+
+The extension is organized into a few small runtime layers:
+
+- `manifest.json`: MV3 entry point, permissions, and content script registration
+- `background.js`: service worker for badge state and tab coordination
+- `content/`: site detection, DOM trimming, lazy restoration, and performance controls
+- `content/site-adapters/`: site-specific selectors and heuristics for each supported AI chat UI
+- `popup/`: quick controls for the active tab
+- `options/`: persistent settings UI
+- `overlay/`: optional in-page widget
+- `utils/`: shared configuration and storage helpers
+
+The core runtime flow is:
+
+1. A content script loads only on supported hostnames.
+2. `SiteDetector` selects a concrete adapter for the current site.
+3. `DOMTrimmer` replaces older message nodes with placeholders while preserving detached clones in memory.
+4. `LazyLoader` restores messages as the user scrolls upward.
+5. `PerformanceBoost` applies optional CSS and resource throttling.
+
+## Installation
+
+### macOS / Brave
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/magido87/BraveOptimizer.git
+cd BraveOptimizer
 ```
-manifest.json
-background.js
-content/
-  content.js
-  dom-trimmer.js
-  lazy-loader.js
-  performance-boost.js
-  site-detector.js
-  site-adapters/
-popup/
-options/
-overlay/
-styles/
-utils/
+
+2. Install the development checks if you want linting and formatting:
+
+```bash
+npm install
 ```
 
-## browser support
+3. Open Brave and navigate to `brave://extensions`.
+4. Enable `Developer mode`.
+5. Click `Load unpacked`.
+6. Select this folder:
 
-chrome, brave, edge, and chromium based browsers.
+```text
+/Users/s17/Desktop/Skärmavbilder/brave/BraveOptimizer
+```
 
-## contributing
+There is no build output folder. Load the repository root.
 
-pull requests welcome. to add support for a new site, create an adapter in `content/site-adapters/` extending the base adapter class.
+## Usage
 
-## license
+- Open a supported AI chat site.
+- Click the extension icon to open the popup.
+- Use `Trim DOM` to remove older rendered messages.
+- Use `Restore All` to reinsert all trimmed messages.
+- Toggle `Auto-Trim`, `Lazy Loading`, or `Performance Boost` as needed.
 
-mit
+Default hotkeys:
+
+- `Alt+T`: trim
+- `Alt+R`: restore
+- `Alt+A`: toggle auto-trim
+- `Alt+P`: toggle performance boost
+- `Alt+O`: toggle overlay
+
+## Privacy and Security Notes
+
+- The extension stores settings and lightweight statistics in `chrome.storage.local`.
+- It does not send chat content to any server.
+- It does not inject remote scripts.
+- It now requests only the `storage` permission.
+- It no longer declares broad `host_permissions` or `<all_urls>` web-accessible resources.
+
+Important limitation:
+
+- Trimmed messages are retained in page memory as detached DOM clones for local restoration. That reduces live DOM pressure, but it does not provide secure deletion of page content.
+
+## Development
+
+Install dependencies and run checks:
+
+```bash
+npm install
+npm run check
+```
+
+Available scripts:
+
+- `npm run lint`
+- `npm run format`
+- `npm run format:check`
+- `npm run check`
+
+## Benchmarks
+
+Benchmark placeholders for future updates:
+
+- Conversation size before/after trimming
+- DOM node count before/after trimming
+- Scroll latency before/after trimming
+- Memory usage snapshots in Brave Task Manager
+
+No benchmark numbers are committed yet in this hardening pass.
+
+## Manual QA
+
+See [QA_CHECKLIST.md](/Users/s17/Desktop/Skärmavbilder/brave/BraveOptimizer/QA_CHECKLIST.md).
+
+## Contributing
+
+See [CONTRIBUTING.md](/Users/s17/Desktop/Skärmavbilder/brave/BraveOptimizer/CONTRIBUTING.md).
+
+## Security
+
+See [SECURITY.md](/Users/s17/Desktop/Skärmavbilder/brave/BraveOptimizer/SECURITY.md).
+
+## Changelog
+
+See [CHANGELOG.md](/Users/s17/Desktop/Skärmavbilder/brave/BraveOptimizer/CHANGELOG.md).
+
+## License
+
+MIT. See [LICENSE](/Users/s17/Desktop/Skärmavbilder/brave/BraveOptimizer/LICENSE).

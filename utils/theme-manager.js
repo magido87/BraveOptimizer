@@ -20,10 +20,10 @@ class ThemeManager {
     if (savedTheme && this.themes[savedTheme]) {
       this.currentTheme = savedTheme;
     }
-    
+
     // Apply theme
     this.applyTheme(this.currentTheme, false);
-    
+
     console.log(`[ThemeManager] Initialized with theme: ${this.currentTheme}`);
   }
 
@@ -131,7 +131,7 @@ class ThemeManager {
     const currentIndex = themeKeys.indexOf(this.currentTheme);
     const nextIndex = (currentIndex + 1) % themeKeys.length;
     const nextTheme = themeKeys[nextIndex];
-    
+
     await this.setTheme(nextTheme);
     return nextTheme;
   }
@@ -145,7 +145,7 @@ class ThemeManager {
     const currentIndex = themeKeys.indexOf(this.currentTheme);
     const prevIndex = (currentIndex - 1 + themeKeys.length) % themeKeys.length;
     const prevTheme = themeKeys[prevIndex];
-    
+
     await this.setTheme(prevTheme);
     return prevTheme;
   }
@@ -158,7 +158,7 @@ class ThemeManager {
   subscribe(callback) {
     this.listeners.push(callback);
     return () => {
-      this.listeners = this.listeners.filter(l => l !== callback);
+      this.listeners = this.listeners.filter((l) => l !== callback);
     };
   }
 
@@ -168,7 +168,7 @@ class ThemeManager {
    * @param {string} oldTheme
    */
   notifyListeners(newTheme, oldTheme) {
-    this.listeners.forEach(callback => {
+    this.listeners.forEach((callback) => {
       try {
         callback(newTheme, oldTheme, this.themes[newTheme]);
       } catch (error) {
@@ -208,10 +208,10 @@ class ThemeManager {
     const r = parseInt(hex.substr(0, 2), 16);
     const g = parseInt(hex.substr(2, 2), 16);
     const b = parseInt(hex.substr(4, 2), 16);
-    
+
     // Calculate luminance
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    
+
     return luminance > 0.5 ? '#000000' : '#ffffff';
   }
 
@@ -262,4 +262,3 @@ const themeManager = new ThemeManager();
 if (typeof window !== 'undefined') {
   window.DOMOptimizerTheme = themeManager;
 }
-

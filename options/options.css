@@ -11,7 +11,13 @@
 }
 
 body {
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'SF Pro Display',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-size: 14px;
   line-height: 1.6;
   background: var(--background-solid);
@@ -82,10 +88,19 @@ body {
 }
 
 @keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(30px, -30px) scale(1.1); }
-  50% { transform: translate(-20px, 20px) scale(0.95); }
-  75% { transform: translate(25px, 10px) scale(1.05); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+  75% {
+    transform: translate(25px, 10px) scale(1.05);
+  }
 }
 
 /* Header */
@@ -167,9 +182,15 @@ body {
   flex-shrink: 0;
 }
 
-.section-icon.boost { color: var(--warning); }
-.section-icon.ui { color: var(--info); }
-.section-icon.storage { color: var(--success); }
+.section-icon.boost {
+  color: var(--warning);
+}
+.section-icon.ui {
+  color: var(--info);
+}
+.section-icon.storage {
+  color: var(--success);
+}
 
 .section-title {
   font-size: 18px;
@@ -280,23 +301,23 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-.theme-option[data-theme="ocean"] .theme-preview {
+.theme-option[data-theme='ocean'] .theme-preview {
   background: linear-gradient(135deg, #0d4f4f 0%, #2dd4bf 100%);
 }
 
-.theme-option[data-theme="darkBlue"] .theme-preview {
+.theme-option[data-theme='darkBlue'] .theme-preview {
   background: linear-gradient(135deg, #1a365d 0%, #4299e1 100%);
 }
 
-.theme-option[data-theme="purple"] .theme-preview {
+.theme-option[data-theme='purple'] .theme-preview {
   background: linear-gradient(135deg, #44337a 0%, #9f7aea 100%);
 }
 
-.theme-option[data-theme="green"] .theme-preview {
+.theme-option[data-theme='green'] .theme-preview {
   background: linear-gradient(135deg, #1c4532 0%, #48bb78 100%);
 }
 
-.theme-option[data-theme="sunset"] .theme-preview {
+.theme-option[data-theme='sunset'] .theme-preview {
   background: linear-gradient(135deg, #742a2a 0%, #fc8181 100%);
 }
 
@@ -470,4 +491,3 @@ input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-

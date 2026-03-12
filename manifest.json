@@ -1,38 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "DOM Performance Optimizer",
+  "name": "AI Chat DOM Optimizer",
   "version": "1.0.0",
-  "description": "Universal browser performance optimizer - trim DOM, virtualize scrolling, boost performance on any heavy webpage",
-  "author": "Performance Labs",
-  
-  "permissions": [
-    "activeTab",
-    "storage",
-    "scripting",
-    "tabs"
-  ],
-  
-  "host_permissions": [
-    "https://chat.openai.com/*",
-    "https://chatgpt.com/*",
-    "https://grok.x.ai/*",
-    "https://x.com/i/grok*",
-    "https://claude.ai/*",
-    "https://www.perplexity.ai/*",
-    "https://gemini.google.com/*",
-    "https://bard.google.com/*",
-    "https://twitter.com/*",
-    "https://x.com/*",
-    "https://www.reddit.com/*",
-    "https://www.facebook.com/*",
-    "https://*/*"
-  ],
-  
+  "description": "Reduce DOM bloat on supported AI chat sites by trimming older messages and restoring them on demand.",
+  "author": "magido87",
+
+  "permissions": ["storage"],
+
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
-  
+
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
@@ -42,20 +21,19 @@
     },
     "default_title": "DOM Performance Optimizer"
   },
-  
+
   "options_page": "options/options.html",
-  
+
   "content_scripts": [
     {
       "matches": [
-        "https://chat.openai.com/*",
         "https://chatgpt.com/*",
         "https://grok.x.ai/*",
         "https://x.com/i/grok*",
         "https://claude.ai/*",
         "https://www.perplexity.ai/*",
-        "https://gemini.google.com/*",
-        "https://bard.google.com/*"
+        "https://perplexity.ai/*",
+        "https://gemini.google.com/*"
       ],
       "js": [
         "utils/config.js",
@@ -74,29 +52,14 @@
         "overlay/overlay.js",
         "content/content.js"
       ],
-      "css": [
-        "styles/themes.css",
-        "styles/glassmorphism.css",
-        "overlay/overlay.css"
-      ],
+      "css": ["styles/themes.css", "styles/glassmorphism.css", "overlay/overlay.css"],
       "run_at": "document_idle"
     }
   ],
-  
+
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  },
-  
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "styles/*.css",
-        "icons/*.png"
-      ],
-      "matches": ["<all_urls>"]
-    }
-  ]
+  }
 }
-

@@ -154,9 +154,9 @@ class DOMOptimizerOverlay {
   async handleTrim() {
     const trimBtn = this.element.querySelector('#overlay-trim');
     trimBtn.classList.add('loading');
-    
+
     await this.controller.trim();
-    
+
     trimBtn.classList.remove('loading');
     this.update();
   }
@@ -167,9 +167,9 @@ class DOMOptimizerOverlay {
   async handleRestore() {
     const restoreBtn = this.element.querySelector('#overlay-restore');
     restoreBtn.classList.add('loading');
-    
+
     await this.controller.restore();
-    
+
     restoreBtn.classList.remove('loading');
     this.update();
   }
@@ -199,18 +199,18 @@ class DOMOptimizerOverlay {
     if (!this.controller.trimmer) return;
 
     const status = this.controller.trimmer.getStatus();
-    
+
     // Update stats
     const visibleEl = this.element.querySelector('#overlay-visible');
     const trimmedEl = this.element.querySelector('#overlay-trimmed');
-    
+
     if (visibleEl) visibleEl.textContent = status.visibleMessages;
     if (trimmedEl) trimmedEl.textContent = status.trimmedMessages;
 
     // Update toggles
     const autoToggle = this.element.querySelector('#overlay-auto-toggle');
     const perfToggle = this.element.querySelector('#overlay-perf-toggle');
-    
+
     if (autoToggle) {
       autoToggle.checked = this.controller.settings.autoTrimEnabled;
     }
@@ -258,7 +258,7 @@ class DOMOptimizerOverlay {
   startDrag(e) {
     this.isDragging = true;
     this.element.classList.add('dragging');
-    
+
     const rect = this.element.getBoundingClientRect();
     this.dragOffset = {
       x: e.clientX - rect.left,
@@ -294,7 +294,7 @@ class DOMOptimizerOverlay {
    */
   endDrag() {
     if (!this.isDragging) return;
-    
+
     this.isDragging = false;
     this.element.classList.remove('dragging');
     this.savePosition();
@@ -365,4 +365,3 @@ class DOMOptimizerOverlay {
 if (typeof window !== 'undefined') {
   window.DOMOptimizerOverlay = DOMOptimizerOverlay;
 }
-

@@ -1,6 +1,6 @@
 /**
  * Site Detector - Detects and selects appropriate adapter
- * Handles multi-site support and fallback logic
+ * Handles supported AI chat site detection
  */
 
 class SiteDetector {
@@ -8,7 +8,7 @@ class SiteDetector {
     this.adapters = [];
     this.currentAdapter = null;
     this.detectedSite = null;
-    
+
     // Register all adapters
     this.registerAdapters();
   }
@@ -33,23 +33,6 @@ class SiteDetector {
     if (typeof GeminiAdapter !== 'undefined') {
       this.adapters.push(new GeminiAdapter());
     }
-    
-    // Generic adapter as fallback
-    if (typeof BaseAdapter !== 'undefined') {
-      const genericAdapter = new BaseAdapter();
-      genericAdapter.name = 'Generic';
-      genericAdapter.selectors = {
-        container: 'main, [role="main"], #main, .main',
-        messages: '[class*="message"], [class*="chat"], [class*="conversation"] > div',
-        userMessage: '[class*="user"], [class*="human"], [class*="self"]',
-        assistantMessage: '[class*="assistant"], [class*="bot"], [class*="ai"]',
-        input: 'textarea, [contenteditable="true"], input[type="text"]',
-        preserveElements: ['textarea', '[contenteditable="true"]', 'nav', 'header', 'footer']
-      };
-      genericAdapter.detect = () => true; // Always matches as fallback
-      this.adapters.push(genericAdapter);
-    }
-
     console.log(`[SiteDetector] Registered ${this.adapters.length} adapters`);
   }
 
@@ -98,8 +81,7 @@ class SiteDetector {
    * @returns {boolean}
    */
   isSupported() {
-    const adapter = this.getAdapter();
-    return adapter !== null && adapter.name !== 'Generic';
+    return this.getAdapter() !== null;
   }
 
   /**
@@ -108,15 +90,14 @@ class SiteDetector {
    */
   getSiteProfile() {
     const siteName = this.getSiteName();
-    
+
     // Map site names to profiles
     const profileMap = {
-      'ChatGPT': CONFIG.profiles.chat,
-      'Claude': CONFIG.profiles.chat,
-      'Grok': CONFIG.profiles.chat,
-      'Perplexity': CONFIG.profiles.chat,
-      'Gemini': CONFIG.profiles.chat,
-      'Generic': CONFIG.profiles.article
+      ChatGPT: CONFIG.profiles.chat,
+      Claude: CONFIG.profiles.chat,
+      Grok: CONFIG.profiles.chat,
+      Perplexity: CONFIG.profiles.chat,
+      Gemini: CONFIG.profiles.chat
     };
 
     return profileMap[siteName] || CONFIG.profiles.chat;
@@ -135,13 +116,7 @@ class SiteDetector {
    * @param {BaseAdapter} adapter
    */
   registerAdapter(adapter) {
-    // Insert before generic adapter
-    const genericIndex = this.adapters.findIndex(a => a.name === 'Generic');
-    if (genericIndex >= 0) {
-      this.adapters.splice(genericIndex, 0, adapter);
-    } else {
-      this.adapters.push(adapter);
-    }
+    this.adapters.push(adapter);
     console.log(`[SiteDetector] Registered custom adapter: ${adapter.name}`);
   }
 
@@ -151,7 +126,7 @@ class SiteDetector {
    * @returns {boolean}
    */
   forceAdapter(adapterName) {
-    const adapter = this.adapters.find(a => a.name === adapterName);
+    const adapter = this.adapters.find((a) => a.name === adapterName);
     if (adapter) {
       this.currentAdapter = adapter;
       this.detectedSite = adapter.name;
@@ -174,4 +149,3 @@ class SiteDetector {
 if (typeof window !== 'undefined') {
   window.SiteDetector = SiteDetector;
 }
-
